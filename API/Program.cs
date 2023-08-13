@@ -48,7 +48,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddDbContext<StoreContext>(opt => 
 {
-    opt.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.UseMySQL("Server=database;Database=store;Uid=root;Pwd=pass;");
 });
 builder.Services.AddCors();
 
