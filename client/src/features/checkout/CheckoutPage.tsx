@@ -20,6 +20,7 @@ import { clearBasket } from "../basket/basketSlice";
 import { LoadingButton } from "@mui/lab";
 import { StripeElementType } from "@stripe/stripe-js";
 import { CardNumberElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { setLoaded } from "../orders/ordersSlice";
 
 const steps = ["Shipping address", "Review your order", "Payment details"];
 
@@ -100,6 +101,7 @@ export default function CheckoutPage() {
         setActiveStep(activeStep + 1);
         dispatch(clearBasket())
         setLoading(false)
+        dispatch(setLoaded())
       } else {
         setPaymentMessage(paymentResult.error?.message!);
         setPaymentSucceeded(false);

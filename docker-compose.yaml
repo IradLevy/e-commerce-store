@@ -1,0 +1,54 @@
+version: '3'
+services:  
+  database:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    container_name: database
+    hostname: database
+    networks:
+      - restore
+    healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 30s
+            retries: 10
+            interval: 5s
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client
+    networks:
+      - restore
+    ports:
+      - "3000:3000"
+    depends_on:
+      database:
+        condition: service_healthy
+        
+  api:
+    build:
+      context: ./API
+      dockerfile: Dockerfile
+    container_name: api
+    networks:
+      - restore
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:5000"
+    expose:
+      - "5000"
+    depends_on:
+      database:
+        condition: service_healthy
+
+networks:
+  restore:

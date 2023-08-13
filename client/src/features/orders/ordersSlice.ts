@@ -33,7 +33,11 @@ export const ordersSlice = createSlice({
         ordersLoaded: false,
         status: 'idle'
     }),
-    reducers: {},
+    reducers: {
+        setLoaded: (state) => {
+            state.ordersLoaded = false
+        }
+    },
     extraReducers: (builder => {
         builder.addCase(fetchOrdersAsync.pending, (state) => {
             state.status = 'pendingFetchOrders';
@@ -61,3 +65,4 @@ export const ordersSlice = createSlice({
 })
 
 export const orderSelectors = ordersAdapter.getSelectors((state: RootState) => state.orders);
+export const {setLoaded} = ordersSlice.actions
