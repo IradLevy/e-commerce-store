@@ -477,3 +477,4 @@ $RECYCLE.BIN/
 *.lnk
 API/appsettings.json
 paymentListening.txt
+API/appsettings.Development.json
